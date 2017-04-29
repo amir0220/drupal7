@@ -1,0 +1,245 @@
+.layout-center {
+    max-width: 1000px;
+}
+
+body .header {
+    position: relative;
+}
+
+.header__logo {
+    margin: 5px 5px 0;
+}
+
+.header__logo img {
+    width: 70px;
+}
+
+.header-bar {
+    height: 28px;
+    background-size: 100%;
+    background-image: url("../../../../default/files/header-top.png");
+    background-position: left;
+    background-repeat: no-repeat;
+}
+
+.header .header__secondary-menu {
+    position: absolute;
+    top: 0.2em;
+    right: 0.5em;
+    font-size: 9pt;
+}
+
+.header .header__secondary-menu ul {
+    margin: 0;
+}
+
+.header .layout-swap__top {
+    top: 2.2em;
+    left: 25%;
+}
+
+.header .main-menu a {
+    font-size: 10pt;
+    color: #666;
+    padding: 3px 20px;
+    text-decoration: none;
+}
+
+.layout-3col {
+    padding-top: 0;
+}
+
+#events-page-main {
+    position: relative;
+    height: 320px;
+}
+
+#events-page-main #events-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 320px;
+    width: 100%;
+}
+
+#events-page-main #events-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 130px 150px 0 0;
+    z-index: 5;
+    width: 450px;
+    height: 100%;
+    color: #666;
+    line-height: 28px;
+}
+
+#events-page-main #events-text h1 {
+    color: #15cadb;
+    font-size: 28pt;
+}
+
+#events-page-main #events-text h1, #events-page-main #events-text p {
+    margin: 10px 0;
+}
+
+#events-main-content {
+    width: 850px;
+}
+
+#featured-event {
+    position: relative;
+    height: 270px;
+    margin: 4em 0;
+}
+
+#featured-event #featured-image {
+    height: 270px;
+}
+
+#featured-event-details {
+    display: inline-block;
+    width: 400px;
+    vertical-align: top;
+    font-size: 9pt;
+    line-height: 22px;
+    color: #444;
+    margin: 5px 0 0 1em;
+}
+
+.event-date {
+    color: #15cadb;
+    font-weight: bold;
+} 
+
+.event-title {
+    color: black;
+    font-size: 16pt;
+    margin: 5px 0 1em;
+}
+
+#learn-more {
+    font-size: 8pt;
+    margin-top: 2.5em;
+    display: inline-block;
+}
+
+#learn-more a {
+    color: white;
+    text-decoration: none;
+    background: url("../../../../default/files/more.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    padding: 8px 20px;
+}
+
+#upcoming-title {
+    color: white;
+    text-align: center;
+    display: table;
+    margin: 0 auto;
+    background: url("../../../../default/files/upcoming.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    padding: 6px 20px;
+}
+
+#upcoming-events {
+    margin-top: 1.5em;
+}
+
+.upcoming-event {
+    width: 270px;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 8px 2em 0;
+}
+
+.upcoming-event .image-container {
+    position: relative;
+    height: 140px;
+}
+
+.image-container .image-overlay {
+    height: 40px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    background: url("../../../../default/files/img-bottom.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    z-index: 5;
+}
+
+.upcoming-event .event-date {
+    height: 80px;
+    width: 75px;
+    position: absolute;
+    top: 0;
+    right: 0.8em;
+    background: url("../../../../default/files/date-overlay.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    z-index: 5;
+    text-align: center;
+    padding-top: 0.8em;
+    line-height: 22px;
+}
+
+.event-date .event-month {
+    font-size: 10pt;
+}
+
+.event-date .event-day {
+    font-size: 16pt;
+    font-weight: normal;
+    color: black;
+}
+
+.upcoming-event .event-details {
+    background: white;
+    display: block;
+    position: relative;
+    z-index: 10;
+}
+
+.event-details .event-time {
+    color: #15cadb;
+    font-size: 9pt;
+    font-weight: bold;
+}
+
+.event-details .event-title {
+    font-size: 17pt;
+    margin: -2px 0 0.8em;
+}
+
+.event-details .learn-more {
+    border-top: 2px solid #f41361;
+    font-size: 8pt;
+    display: inline-block;
+    padding-top: 5px;
+}
+
+.event-details .learn-more a {
+    color: #f41361;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.event-details .more-icon {
+    width: 10px;
+    height: 10px;
+    background: url("../../../../default/files/more-icon.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    display: inline-block;
+    margin-left: 5px;
+    vertical-align: -1px;
+}

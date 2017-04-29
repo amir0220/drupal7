@@ -1,0 +1,3 @@
+name = Drupal Custom Module
+description = Custom Module to build the events page
+core = 7.x

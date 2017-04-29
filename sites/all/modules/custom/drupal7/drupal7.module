@@ -1,0 +1,172 @@
+<?php
+
+/*
+    This function implements drupal hook_menu to create custom menu items.
+*/
+function drupal7_menu() {
+    $items = array();
+    
+    $items['events'] = array (
+        'page callback' => 'drupal7_display_events_page',
+        'access callback' => TRUE,
+    );
+    
+    return $items;
+}
+
+
+/*
+    This function returns HTML for the events page.
+*/
+function drupal7_display_events_page() {
+    $html = "
+        <div id='events-page-main'>
+            <img id='events-img' src='/sites/default/files/events.png'>
+            <div id='events-text'>
+                <h1>EVENTS</h1>
+                <p>Join us at any of our public events to experience the impact of Youth on Record firsthand.</p>
+            </div>
+        </div>
+    ";
+    
+    $html .="<div id='events-main-content'>";
+    
+    // get the featured upcoming event
+    $featured_event = drupal7_get_featured_upcoming_event();
+    
+    // get the featured event field values
+    $featured_image_uri_temp = explode('//', $featured_event->field_event_image['und'][0]['uri']);
+    $featured_image_path = "/sites/default/files/" . $featured_image_uri_temp[1];
+    $featured_event_date = strtoupper(date("F d, Y", strtotime($featured_event->field_event_date['und'][0]['value'])));
+    $featured_event_title = $featured_event->title;
+    $featured_event_description = $featured_event->field_description['und'][0]['value'];
+    
+    $html .= "
+        <div id='featured-event'>
+            <img id='featured-image' src='$featured_image_path'>
+            <div id='featured-event-details'>
+                <div class='event-date'>$featured_event_date</div>
+                <div class='event-title'>$featured_event_title</div>
+                <div class='event-description'>$featured_event_description</div>
+                <div id='learn-more'><a href='node/$featured_event->nid'>LEARN MORE</a></div>
+            </div>
+        </div>
+    ";
+    
+    // get all upcoming events
+    $upcoming_events = drupal7_get_upcoming_events();
+    
+    // the title for Upcoming Events
+    $html .= "<div id='upcoming-title'>UPCOMING EVENTS</div>";
+    
+    $html .= "<div id='upcoming-events'>";
+    
+    // loop through each upcoming events
+    foreach ($upcoming_events as $event) {
+        // get the event node field values
+        $image_uri_temp = explode('//', $event->field_event_image['und'][0]['uri']);
+        $image_path = "/sites/default/files/" . $image_uri_temp[1];
+        $event_start = strtotime($event->field_event_date['und'][0]['value']);
+        $event_end = strtotime($event->field_event_date['und'][0]['value2']);
+        $event_month = strtoupper(date("M", $event_start));
+        $event_day = date("d", $event_start);
+        $start_time = date("h:ia", $event_start);
+        $end_time = date("h:ia", $event_end);
+        $event_title = $event->title;
+        $event_description = $featured_event->field_description['und'][0]['value'];
+        
+        $html .= "
+            <div class='upcoming-event'>
+                <div class='image-container'>
+                    <img class='event-image' src='$image_path'>
+                    <div class='image-overlay'></div>
+                </div>
+                <span class='event-date'>
+                    <div class='event-month'>$event_month</div>
+                    <div class='event-day'>$event_day</div>
+                </span>
+                <div class='event-details'>
+                    <div class='event-time'>$start_time - $end_time</div>
+                    <div class='event-title'>$event_title</div>
+                    <div class='learn-more'><a href='node/$event->nid'>LEARN MORE</a></div><span class='more-icon'></span>
+                </div>
+            </div>
+        ";
+    }
+    
+    $html .= "</div></div>";
+    
+    return $html;
+}
+
+/*
+    This function will return all upcoming events (not featured) nodes 
+    in an array sorted by event date.
+    For this task we'll set 4/1/2017 as today's date
+    so that the first upcoming event on 4/11/2017 still gets selected.
+*/
+function drupal7_get_upcoming_events() {
+    // set 4/1/2017 as today's date
+    $today = "2017/4/1";
+    
+    // we'll store all the event nodes in this array
+    $upcoming_events = array();
+    
+    // query the database for upcoming events that are not featured events
+    $result = db_query("SELECT ed.entity_id 
+                        FROM field_data_field_event_date ed, field_data_field_featured_event fe
+                        WHERE ed.entity_id = fe.entity_id
+                          AND field_event_date_value > '$today'
+                          AND field_featured_event_value = 'No'");
+    
+    if ($result->rowCount() > 0) {
+        foreach ($result as $row) {
+            // load the node and save the node object on return array.
+            $event_node = node_load($row->entity_id);
+            $event_date_time = strtotime($event_node->field_event_date['und'][0]['value']);
+            $upcoming_events[$event_date_time] = $event_node;
+        }
+    }
+    
+    // sort the events by key (event_date)
+    ksort($upcoming_events);
+    
+    // return the upcoming events node array
+    return $upcoming_events;
+}
+
+
+/*
+    This function will randomly select and return a featured event 
+    from the list of all featured events.
+*/
+function drupal7_get_featured_upcoming_event() {
+    // set 4/1/2017 as today's date
+    $today = "2017/4/1";
+    
+    // we'll store all the featured upcoming event node ids in this array
+    $featured_upcoming_events = array();
+    
+    // query the database for upcoming events
+    $result = db_query("SELECT ed.entity_id 
+                        FROM field_data_field_event_date ed, field_data_field_featured_event fe
+                        WHERE ed.entity_id = fe.entity_id
+                          AND field_event_date_value > '$today'
+                          AND field_featured_event_value = 'Yes'");
+                          
+    if ($result->rowCount() > 0) {
+        foreach ($result as $row) {
+            // save the entity_id in the array
+            $featured_upcoming_events[] = $row->entity_id;
+        }
+    }
+    
+    // select an item randomly
+    $random_index = array_rand($featured_upcoming_events);
+    
+    // load the node of the randomly select item
+    $featured_event_node = node_load($featured_upcoming_events[$random_index]);
+    
+    // return the randomly selected featured event node.
+    return $featured_event_node;
+}

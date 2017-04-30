@@ -21,7 +21,7 @@ function drupal7_menu() {
 function drupal7_display_events_page() {
     $html = "
         <div id='events-page-main'>
-            <img id='events-img' src='/sites/default/files/events.png'>
+            <img id='events-img' src='sites/default/files/events.png'>
             <div id='events-text'>
                 <h1>EVENTS</h1>
                 <p>Join us at any of our public events to experience the impact of Youth on Record firsthand.</p>
@@ -36,7 +36,7 @@ function drupal7_display_events_page() {
     
     // get the featured event field values
     $featured_image_uri_temp = explode('//', $featured_event->field_event_image['und'][0]['uri']);
-    $featured_image_path = "/sites/default/files/" . $featured_image_uri_temp[1];
+    $featured_image_path = "sites/default/files/" . $featured_image_uri_temp[1];
     $featured_event_date = strtoupper(date("F d, Y", strtotime($featured_event->field_event_date['und'][0]['value'])));
     $featured_event_title = $featured_event->title;
     $featured_event_description = $featured_event->field_description['und'][0]['value'];
@@ -65,7 +65,7 @@ function drupal7_display_events_page() {
     foreach ($upcoming_events as $event) {
         // get the event node field values
         $image_uri_temp = explode('//', $event->field_event_image['und'][0]['uri']);
-        $image_path = "/sites/default/files/" . $image_uri_temp[1];
+        $image_path = "sites/default/files/" . $image_uri_temp[1];
         $event_start = strtotime($event->field_event_date['und'][0]['value']);
         $event_end = strtotime($event->field_event_date['und'][0]['value2']);
         $event_month = strtoupper(date("M", $event_start));
